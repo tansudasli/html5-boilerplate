@@ -1,4 +1,4 @@
-# flex-materialio
+# html5-material-pwa-boilerplate
 
 Pure *Html5 Boilerplate* w/ 
 - [x] Material icon css
