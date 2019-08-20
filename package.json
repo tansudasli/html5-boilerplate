@@ -1,7 +1,7 @@
 {
-  "name": "flex-materialio",
+  "name": "www",
   "version": "1.0.0",
-  "description": "flex-material sandbox",
+  "description": "www",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
