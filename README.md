@@ -30,7 +30,7 @@ After fork,
       5. no overwrite index.html<br>
       In a real scenario you will have dev, release, prod, demo stages. So you should consider:
           - [ ] **every links in www** must be redirected correct core-app urls, regarding to stages of core-app !
-          - [ ] **deployment of wwww** must be routed to correct project and correct hosting app ! 
+          - [ ] **deployment of www** must be routed to correct project and correct hosting app ! 
               - Add `site: ...` to the firebae.json
               - Add `index.html` firebase js before </body>
               - Run `firebase deploy --project development --only hosting:static-e16e4`
