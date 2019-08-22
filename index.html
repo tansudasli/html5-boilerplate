@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     <link rel="stylesheet" href="assets/css/normalize.css">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="bundle.css">
 
     <meta name="theme-color" content="#fafafa">
 
@@ -82,7 +82,7 @@
                 
                 <div class="mdc-card__actions">
                     <div class="mdc-card__action-buttons">
-                        <button class="mdc-button mdc-card__action mdc-card__action--button">Read</button>
+                        <button class="actionButtonRipple mdc-button mdc-card__action mdc-card__action--button">Read</button>
                         <button class="mdc-button mdc-card__action mdc-card__action--button">Bookmark</button>
                     </div>
 
@@ -160,9 +160,9 @@
    
     <!-- Instantiate single textfield component rendered in the document -->
     <script src="assets/js/modernizr-3.7.1.min.js"></script>
-    <script type="module" src="assets/js/app.js"></script>
+    <script src="bundle.js" async></script>
 
-       <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/__/firebase/6.4.0/firebase-app.js"></script>
