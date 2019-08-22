@@ -62,16 +62,16 @@ After fork,
 1. Change `material.theme.scss` for hange variables w/ your colors, shape requirements etc.
 2. then, start changing index.html and creating new html files if needed!
 
-─ webpack.config.js: webpack configuration for scss-2-css, es2015js-2-js etc...
-─ style.scss: contains all .scss files, and imports below scss files. Webpack converts it and all other scss-2-css into **bundle.css**
-    ─ material.theme.scss: all global varialbles to change material design look and feel. (colors, shapes etc.)
-    ─ normalize.scss: to reset browser specific css things. optimized version of `npm install normalizer`.
-    ─ material.layout.scss: specific to the layout
-    ─ material.components.scss : specific to the material components
-─ main.js: access components w/ `querySelectorAll('.className')` then do whatever you want!. Webpack converts it into **bundle.js**
-─ dist/: `npm run build` creates for deployments.
-    ─ bundle.js
-    ─ bundle.css
+- webpack.config.js: webpack configuration for scss-2-css, es2015js-2-js etc...
+- style.scss: contains all .scss files, and imports below scss files. Webpack converts it and all other scss-2-css into **bundle.css**
+    - material.theme.scss: all global varialbles to change material design look and feel. (colors, shapes etc.)
+    - normalize.scss: to reset browser specific css things. optimized version of `npm install normalizer`.
+    - material.layout.scss: specific to the layout
+    - material.components.scss : specific to the material components
+- main.js: access components w/ `querySelectorAll('.className')` then do whatever you want!. Webpack converts it into **bundle.js**
+- dist/: `npm run build` creates for deployments.
+    - bundle.js
+    - bundle.css
 
 ## How to Run
 
