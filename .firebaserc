@@ -1,0 +1,30 @@
+{
+  "projects": {
+    "development": "development-3f127",
+    "production": "production-34b0f",
+    "release": "release-91f9d"
+  },
+  "targets": {
+    "development-3f127": {
+      "hosting": {
+        "www": [
+          "development-3f127"
+        ]
+      }
+    },
+    "release-91f9d": {
+      "hosting": {
+        "www": [
+          "release-91f9d"
+        ]
+      }
+    },
+    "production-34b0f": {
+      "hosting": {
+        "www": [
+          "production-34b0f"
+        ]
+      }
+    }
+  }
+}

@@ -36,26 +36,7 @@ After fork,
             - babel-loader: Compiles JavaScript files using babel
             - @babel/preset-env: Preset for compiling es2015
     - `npm run scss` to generate css files.
-2. Install Firebase CLI w/ `npm install -g firebase-tools`
-3. `firebase login` to **switch firebase user**. or `firebase logout` to change firebase user.
-    - `firebase list` to see projects
-    - then, `firebase init` to initialize firebase settings w/ below selected
-        1. hosting,
-        2. public=.
-        3. no route to index.html. 
-        4. no overwrite 4040.html
-        5. no overwrite index.html<br>
-      In a real scenario you will have dev, release, prod, demo stages. And i.e. 
-      in dev (as firebase project), you will have 1 hosting which contains 2 apps such as www (static parts) and core-app (dynamic parts).
-      So you should consider:
-          - [ ] **every links in www** must be redirected correct core-app urls, regarding to stages of core-app !
-          - [ ] **deployment of www** must be routed to correct project and correct hosting app ! 
-          **Copy and edit .firebaserc, firebase.json files.** Basicly, below steps are...
-              - Do not add `site: ...` to the firebae.json. Instead, Use `target: ...` !
-              - Add `index.html` firebase js before </body>
-              - Run `firebase use --add`, for all projects in related firebase account ! This will define alias for `--project ...`. So you can use easily
-              - Run `firebase deploy --project development --only hosting:...`
-              - for local test use `firebase serve`.
+
 
 ## How to Customize
 
@@ -77,3 +58,45 @@ After fork,
 
 - for development only and serve from local run `npm run start`
 - for production, `npm run build` to create dist/ folder. Then deploy it to firebase or somewhere else
+
+## How to Deploy
+
+to deploy **Firebase**: 2 files are critical. `firebase init` creates them. **You should customize them too**.
+
+- .firebaserc: configurations about targets, firebase projects ids, and hostings. In a real scenario, you have more than one web sites in a hosting. 
+- firebase.json: Deployment config to firebase
+- deployment-to-development.sh, deployment-to-release.sh, deployment-to-demo.sh, deployment-to-production.sh: To decrease deployment risks such as firebase users, projects and related websites etc..
+    - In a ci/cd scenario, you will use some parts of scripts to handle more elegant way !
+
+**general architecture** will be similar to below:
+
+- The _branches_ will be dev, release, demo, prod
+- then, your _firebase architecturee_ will be, 
+    - for the main part will cover dev (dev-13df7), release (release-15dx7), demo (demo-3f567), prod (prod-4fg56)
+        - Above have 1 hosting w/ multiple websites + default firestore db + same Authentication + GA enabled
+        - blaze pricing tier for gcp access
+    - in a microservices scenario, you gonna need separate projects dedicated to dbs
+        - i.e. merchandiser-dev, merchandiser-release, merchandiser-demo, merchandiser-prod
+        - merchandiser's app or www is inside dev, release, demo and prod !!
+- So then, your _GCP_ structure will be under 1 billing account w/ 1 organization
+    - dev, release, demo, prod as gcp projects.
+    - if you delete firebase project, gcp part, default behaviour, will be deleted !
+- So then, your _GA_ structure will be under 1 account
+    - dev, release, demo, prod as _properties_ and _all web sites view_ inside.
+    - in GA, correct namings. They will have same ids in firebase.
+
+
+1. Install Firebase CLI w/ `npm install -g firebase-tools`
+2. `firebase login` to **switch firebase user**. or `firebase logout` to change firebase user.
+    - `firebase list` to see _firebase projects_
+    - then, `firebase init` to initialize firebase settings w/ hosting, public=./dist, no route to index.html, no overwrite 404.html, no overwrite index.html<br>
+3. In a real scenario you will have dev, release, prod, demo stages. And i.e. in dev (as firebase project), you will have 1 hosting which contains 2 apps such as www (static parts) and core-app (dynamic parts).<br><br>
+So you should consider:
+    - **every links in www** must be redirected correct core-app urls, regarding to stages of core-app !
+    - **deployment of www** must be routed to correct project and correct hosting app ! 
+4. **Copy and edit .firebaserc, firebase.json files.** Basicly, below steps are...
+    - Do not add `site: ...` to the firebase.json. Instead, Use `target: ...` !
+    - Add `index.html` firebase js before </body>
+    - Run `firebase use --add`, for all projects in related firebase account ! This will define alias for `--project ...`. So you can use easily
+    - Run `firebase deploy --project development --only hosting:...`
+    - for local test use `firebase serve`.
