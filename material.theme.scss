@@ -34,11 +34,44 @@ https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 Primary colors ($mdc-theme-primary) map to components such as app bars and buttons, 
 while secondary colors ($mdc-theme-secondary) are used as accents on components 
 such as FABs and selection controls.
+
+use http://mcg.mbitson.com/#!?mcgpalette0=%238e24aa&themename=mcgtheme 
 */
 
 $mdc-theme-primary: #8e24aa;
 $mdc-theme-secondary: #ffa000;
 
+
+$mdc-theme-primary-50: #f1e5f5;
+$mdc-theme-primary-100: #ddbde6;
+$mdc-theme-primary-200: #c792d5;
+$mdc-theme-primary-300: #b066c4;
+$mdc-theme-primary-400: #9f45b7;
+$mdc-theme-primary-500: #8e24aa;
+$mdc-theme-primary-600: #8620a3;
+$mdc-theme-primary-700: #7b1b99;
+$mdc-theme-primary-800: #711690;
+$mdc-theme-primary-900: #5f0d7f;
+$mdc-theme-primary-A100: #e6b1ff;
+$mdc-theme-primary-A200: #d67eff;
+$mdc-theme-primary-A400: #c64bff;
+$mdc-theme-primary-A700: #be31ff;
+
+
+$mdc-theme-secondary-50: #fff4e0;
+$mdc-theme-secondary-100: #ffe3b3;
+$mdc-theme-secondary-200: #ffd080;
+$mdc-theme-secondary-300: #ffbd4d;
+$mdc-theme-secondary-400: #ffae26;
+$mdc-theme-secondary-500: #ffa000;
+$mdc-theme-secondary-600: #ff9800;
+$mdc-theme-secondary-700: #ff8e00;
+$mdc-theme-secondary-800: #ff8400;
+$mdc-theme-secondary-900: #ff7300;
+$mdc-theme-secondary-A100: #ffffff;
+$mdc-theme-secondary-A200: #fff7f2;
+$mdc-theme-secondary-A400: #ffd8bf;
+$mdc-theme-secondary-A700: #ffc9a6;
 
 /*
 Theme background ($mdc-theme-background) appears behind scrollable content. 
@@ -47,7 +80,7 @@ such as cards, sheets, and menus. Error color ($mdc-theme-error) is used to indi
 an error state for components such as text fields provided with inaccurate input.
 */
 
-// $mdc-theme-surface: #ffffff;
+$mdc-theme-surface: #ffffff;
 // $mdc-theme-background: #ffffff;
  $mdc-theme-error: #b00020;
 
@@ -60,5 +93,5 @@ be sure to consider accessible color contrast for the value pairs.
 
 $mdc-theme-on-primary: #ffffff;
 $mdc-theme-on-secondary: #000000;
-// $mdc-theme-on-error: #ffffff;
-// $mdc-theme-on-surface: #000000;
+$mdc-theme-on-error: #ffffff;
+$mdc-theme-on-surface: #000000;

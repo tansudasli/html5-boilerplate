@@ -1,254 +1,267 @@
 /**
- * Copyright 2016 Google Inc. All rights reserved.
+ * Welcome to your Workbox-powered service worker!
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You'll need to register this file in your web app and you should
+ * disable HTTP caching for this file too.
+ * See https://goo.gl/nhQhGp
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The rest of the code is auto-generated. Please don't update this file
+ * directly; instead, make changes to your Workbox build configuration
+ * and re-run your build process.
+ * See https://goo.gl/2aRDsh
  */
 
-// This generated service worker JavaScript will precache your site's resources.
-// The code needs to be saved in a .js file at the top-level of your site, and registered
-// from your pages in order to be used. See
-// https://github.com/googlechrome/sw-precache/blob/master/demo/app/js/service-worker-registration.js
-// for an example of how you can register this script and handle various service worker events.
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-/* eslint-env worker, serviceworker */
-/* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren */
-'use strict';
-
-
-
-
-
-/* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/bower_components/webcomponentsjs/webcomponents-lite.min.js","f04ed23700daeb36f637bfe095960659"],["/index.html","6018d0295f8faf690e2878af152ecbbc"],["/manifest.json","2eefc15db4b58758cddc0d666e27d399"],["/src/my-app.html","7e5dee7784534c0ccc50f8ec71bccd3f"],["/src/my-view1.html","4ccb8d9cd5b87a92973cc7704873b65f"],["/src/my-view2.html","7e00f1613408e109e6d26853846c8467"],["/src/my-view3.html","1971572d82bd5c7e058dce75bdd068df"],["/src/my-view404.html","858fecebfa5de274e8d3f7ba905d599e"]];
-/* eslint-enable quotes, comma-spacing */
-var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
-
-
-var IgnoreUrlParametersMatching = [/^utm_/];
-
-
-
-var addDirectoryIndex = function (originalUrl, index) {
-    var url = new URL(originalUrl);
-    if (url.pathname.slice(-1) === '/') {
-      url.pathname += index;
-    }
-    return url.toString();
-  };
-
-var getCacheBustedUrl = function (url, param) {
-    param = param || Date.now();
-
-    var urlWithCacheBusting = new URL(url);
-    urlWithCacheBusting.search += (urlWithCacheBusting.search ? '&' : '') +
-      'sw-precache=' + param;
-
-    return urlWithCacheBusting.toString();
-  };
-
-var isPathWhitelisted = function (whitelist, absoluteUrlString) {
-    // If the whitelist is empty, then consider all URLs to be whitelisted.
-    if (whitelist.length === 0) {
-      return true;
-    }
-
-    // Otherwise compare each path regex to the path of the URL passed in.
-    var path = (new URL(absoluteUrlString)).pathname;
-    return whitelist.some(function(whitelistedPathRegex) {
-      return path.match(whitelistedPathRegex);
-    });
-  };
-
-var populateCurrentCacheNames = function (precacheConfig,
-    cacheNamePrefix, baseUrl) {
-    var absoluteUrlToCacheName = {};
-    var currentCacheNamesToAbsoluteUrl = {};
-
-    precacheConfig.forEach(function(cacheOption) {
-      var absoluteUrl = new URL(cacheOption[0], baseUrl).toString();
-      var cacheName = cacheNamePrefix + absoluteUrl + '-' + cacheOption[1];
-      currentCacheNamesToAbsoluteUrl[cacheName] = absoluteUrl;
-      absoluteUrlToCacheName[absoluteUrl] = cacheName;
-    });
-
-    return {
-      absoluteUrlToCacheName: absoluteUrlToCacheName,
-      currentCacheNamesToAbsoluteUrl: currentCacheNamesToAbsoluteUrl
-    };
-  };
-
-var stripIgnoredUrlParameters = function (originalUrl,
-    ignoreUrlParametersMatching) {
-    var url = new URL(originalUrl);
-
-    url.search = url.search.slice(1) // Exclude initial '?'
-      .split('&') // Split into an array of 'key=value' strings
-      .map(function(kv) {
-        return kv.split('='); // Split each 'key=value' string into a [key, value] array
-      })
-      .filter(function(kv) {
-        return ignoreUrlParametersMatching.every(function(ignoredRegex) {
-          return !ignoredRegex.test(kv[0]); // Return true iff the key doesn't match any of the regexes.
-        });
-      })
-      .map(function(kv) {
-        return kv.join('='); // Join each [key, value] array into a 'key=value' string
-      })
-      .join('&'); // Join the array of 'key=value' strings into a string with '&' in between each
-
-    return url.toString();
-  };
-
-
-var mappings = populateCurrentCacheNames(PrecacheConfig, CacheNamePrefix, self.location);
-var AbsoluteUrlToCacheName = mappings.absoluteUrlToCacheName;
-var CurrentCacheNamesToAbsoluteUrl = mappings.currentCacheNamesToAbsoluteUrl;
-
-function deleteAllCaches() {
-  return caches.keys().then(function(cacheNames) {
-    return Promise.all(
-      cacheNames.map(function(cacheName) {
-        return caches.delete(cacheName);
-      })
-    );
-  });
-}
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    // Take a look at each of the cache names we expect for this version.
-    Promise.all(Object.keys(CurrentCacheNamesToAbsoluteUrl).map(function(cacheName) {
-      return caches.open(cacheName).then(function(cache) {
-        // Get a list of all the entries in the specific named cache.
-        // For caches that are already populated for a given version of a
-        // resource, there should be 1 entry.
-        return cache.keys().then(function(keys) {
-          // If there are 0 entries, either because this is a brand new version
-          // of a resource or because the install step was interrupted the
-          // last time it ran, then we need to populate the cache.
-          if (keys.length === 0) {
-            // Use the last bit of the cache name, which contains the hash,
-            // as the cache-busting parameter.
-            // See https://github.com/GoogleChrome/sw-precache/issues/100
-            var cacheBustParam = cacheName.split('-').pop();
-            var urlWithCacheBusting = getCacheBustedUrl(
-              CurrentCacheNamesToAbsoluteUrl[cacheName], cacheBustParam);
-
-            var request = new Request(urlWithCacheBusting,
-              {credentials: 'same-origin'});
-            return fetch(request).then(function(response) {
-              if (response.ok) {
-                return cache.put(CurrentCacheNamesToAbsoluteUrl[cacheName],
-                  response);
-              }
-
-              console.error('Request for %s returned a response status %d, ' +
-                'so not attempting to cache it.',
-                urlWithCacheBusting, response.status);
-              // Get rid of the empty cache if we can't add a successful response to it.
-              return caches.delete(cacheName);
-            });
-          }
-        });
-      });
-    })).then(function() {
-      return caches.keys().then(function(allCacheNames) {
-        return Promise.all(allCacheNames.filter(function(cacheName) {
-          return cacheName.indexOf(CacheNamePrefix) === 0 &&
-            !(cacheName in CurrentCacheNamesToAbsoluteUrl);
-          }).map(function(cacheName) {
-            return caches.delete(cacheName);
-          })
-        );
-      });
-    }).then(function() {
-      if (typeof self.skipWaiting === 'function') {
-        // Force the SW to transition from installing -> active state
-        self.skipWaiting();
-      }
-    })
-  );
-});
-
-if (self.clients && (typeof self.clients.claim === 'function')) {
-  self.addEventListener('activate', function(event) {
-    event.waitUntil(self.clients.claim());
-  });
-}
-
-self.addEventListener('message', function(event) {
-  if (event.data.command === 'delete_all') {
-    console.log('About to delete all caches...');
-    deleteAllCaches().then(function() {
-      console.log('Caches deleted.');
-      event.ports[0].postMessage({
-        error: null
-      });
-    }).catch(function(error) {
-      console.log('Caches not deleted:', error);
-      event.ports[0].postMessage({
-        error: error
-      });
-    });
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
 
-
-self.addEventListener('fetch', function(event) {
-  if (event.request.method === 'GET') {
-    var urlWithoutIgnoredParameters = stripIgnoredUrlParameters(event.request.url,
-      IgnoreUrlParametersMatching);
-
-    var cacheName = AbsoluteUrlToCacheName[urlWithoutIgnoredParameters];
-    var directoryIndex = 'index.html';
-    if (!cacheName && directoryIndex) {
-      urlWithoutIgnoredParameters = addDirectoryIndex(urlWithoutIgnoredParameters, directoryIndex);
-      cacheName = AbsoluteUrlToCacheName[urlWithoutIgnoredParameters];
-    }
-
-    var navigateFallback = '/index.html';
-    // Ideally, this would check for event.request.mode === 'navigate', but that is not widely
-    // supported yet:
-    // https://code.google.com/p/chromium/issues/detail?id=540967
-    // https://bugzilla.mozilla.org/show_bug.cgi?id=1209081
-    if (!cacheName && navigateFallback && event.request.headers.has('accept') &&
-        event.request.headers.get('accept').includes('text/html') &&
-        /* eslint-disable quotes, comma-spacing */
-        isPathWhitelisted([], event.request.url)) {
-        /* eslint-enable quotes, comma-spacing */
-      var navigateFallbackUrl = new URL(navigateFallback, self.location);
-      cacheName = AbsoluteUrlToCacheName[navigateFallbackUrl.toString()];
-    }
-
-    if (cacheName) {
-      event.respondWith(
-        // Rely on the fact that each cache we manage should only have one entry, and return that.
-        caches.open(cacheName).then(function(cache) {
-          return cache.keys().then(function(keys) {
-            return cache.match(keys[0]).then(function(response) {
-              if (response) {
-                return response;
-              }
-              // If for some reason the response was deleted from the cache,
-              // raise and exception and fall back to the fetch() triggered in the catch().
-              throw Error('The cache ' + cacheName + ' is empty.');
-            });
-          });
-        }).catch(function(e) {
-          console.warn('Couldn\'t serve response for "%s" from cache: %O', event.request.url, e);
-          return fetch(event.request);
-        })
-      );
-    }
+/**
+ * The workboxSW.precacheAndRoute() method efficiently caches and responds to
+ * requests for URLs in the manifest.
+ * See https://goo.gl/S9QRab
+ */
+self.__precacheManifest = [
+  {
+    "url": "404.html",
+    "revision": "6960df71042ce58a4716027a6385aa51"
+  },
+  {
+    "url": "apple-touch-icon.png",
+    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
+  },
+  {
+    "url": "assets/archive/archive.html",
+    "revision": "6e8f64ba61f0b6af710a1683e4e8b2b1"
+  },
+  {
+    "url": "assets/css/normalize.css",
+    "revision": "112272e51c80ffe5bd01becd2ce7d656"
+  },
+  {
+    "url": "assets/icons/icon-128x128.png",
+    "revision": "c868628f85920746394b72634dfcc4f9"
+  },
+  {
+    "url": "assets/icons/icon-144x144.png",
+    "revision": "cd8497548afb834dda62757379542627"
+  },
+  {
+    "url": "assets/icons/icon-152x152.png",
+    "revision": "fe8578eb15d077ca8c61b136d721f816"
+  },
+  {
+    "url": "assets/icons/icon-192x192.png",
+    "revision": "cba69c4d0a85d58c52948906f09cc2e5"
+  },
+  {
+    "url": "assets/icons/icon-384x384.png",
+    "revision": "09e0f809670656f359124debc2f18af5"
+  },
+  {
+    "url": "assets/icons/icon-512x512.png",
+    "revision": "499374c2e19adb5ef3b3dadc7cc53412"
+  },
+  {
+    "url": "assets/icons/icon-72x72.png",
+    "revision": "18f662ec383f61bfe9db19a5a43fcec5"
+  },
+  {
+    "url": "assets/icons/icon-96x96.png",
+    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
+  },
+  {
+    "url": "assets/icons/tile-150x150.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "assets/icons/tile-310x150.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "assets/icons/tile-310x310.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "assets/icons/tile-70x70.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "assets/js/modernizr-3.7.1.min.js",
+    "revision": "ee25e20d7e9ab3a9176a13b399811ba3"
+  },
+  {
+    "url": "assets/privacy.html",
+    "revision": "674c4ed7ef8f948d8c415243d13636fa"
+  },
+  {
+    "url": "assets/terms.html",
+    "revision": "5d515213b173489072e0b94e65a5f6ad"
+  },
+  {
+    "url": "browserconfig.xml",
+    "revision": "533fdc0d5e06d14634d27bb5c9f4076d"
+  },
+  {
+    "url": "dist/404.html",
+    "revision": "6960df71042ce58a4716027a6385aa51"
+  },
+  {
+    "url": "dist/apple-touch-icon.png",
+    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
+  },
+  {
+    "url": "dist/assets/archive/archive.html",
+    "revision": "6e8f64ba61f0b6af710a1683e4e8b2b1"
+  },
+  {
+    "url": "dist/assets/css/normalize.css",
+    "revision": "112272e51c80ffe5bd01becd2ce7d656"
+  },
+  {
+    "url": "dist/assets/icons/icon-128x128.png",
+    "revision": "c868628f85920746394b72634dfcc4f9"
+  },
+  {
+    "url": "dist/assets/icons/icon-144x144.png",
+    "revision": "cd8497548afb834dda62757379542627"
+  },
+  {
+    "url": "dist/assets/icons/icon-152x152.png",
+    "revision": "fe8578eb15d077ca8c61b136d721f816"
+  },
+  {
+    "url": "dist/assets/icons/icon-192x192.png",
+    "revision": "cba69c4d0a85d58c52948906f09cc2e5"
+  },
+  {
+    "url": "dist/assets/icons/icon-384x384.png",
+    "revision": "09e0f809670656f359124debc2f18af5"
+  },
+  {
+    "url": "dist/assets/icons/icon-512x512.png",
+    "revision": "499374c2e19adb5ef3b3dadc7cc53412"
+  },
+  {
+    "url": "dist/assets/icons/icon-72x72.png",
+    "revision": "18f662ec383f61bfe9db19a5a43fcec5"
+  },
+  {
+    "url": "dist/assets/icons/icon-96x96.png",
+    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
+  },
+  {
+    "url": "dist/assets/icons/tile-150x150.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "dist/assets/icons/tile-310x150.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "dist/assets/icons/tile-310x310.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "dist/assets/icons/tile-70x70.png",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "dist/assets/js/modernizr-3.7.1.min.js",
+    "revision": "ee25e20d7e9ab3a9176a13b399811ba3"
+  },
+  {
+    "url": "dist/assets/privacy.html",
+    "revision": "674c4ed7ef8f948d8c415243d13636fa"
+  },
+  {
+    "url": "dist/assets/terms.html",
+    "revision": "5d515213b173489072e0b94e65a5f6ad"
+  },
+  {
+    "url": "dist/bundle.css",
+    "revision": "040340818af03d60be8a0c82c2c2c119"
+  },
+  {
+    "url": "dist/bundle.js",
+    "revision": "4b99aa2250cee6387b192715df0635a6"
+  },
+  {
+    "url": "dist/favicon.ico",
+    "revision": "b9aa7c338693424aae99599bec875b5f"
+  },
+  {
+    "url": "dist/index.html",
+    "revision": "972a77d335695b12680f49413b17a451"
+  },
+  {
+    "url": "dist/precache-manifest.a02351fbf6742d47ddb6c131f7588743.js",
+    "revision": "a02351fbf6742d47ddb6c131f7588743"
+  },
+  {
+    "url": "dist/site.webmanifest",
+    "revision": "4bffe56f1b35066af7af508a07c7b63e"
+  },
+  {
+    "url": "favicon.ico",
+    "revision": "b9aa7c338693424aae99599bec875b5f"
+  },
+  {
+    "url": "firebase.json",
+    "revision": "90400c939fe2e98ea64d1906aa7ddbc8"
+  },
+  {
+    "url": "index.html",
+    "revision": "a2a21d418275cafbd1a8f3da11975b3e"
+  },
+  {
+    "url": "main.js",
+    "revision": "fbd47ef292edb6faa9f481504155352d"
+  },
+  {
+    "url": "material.components.scss",
+    "revision": "8b5f34509dad04f3abcfa414a8fe3642"
+  },
+  {
+    "url": "material.layout.scss",
+    "revision": "63e98a2d479a2d50da32966d026240d8"
+  },
+  {
+    "url": "material.theme.scss",
+    "revision": "6f14c01e895731ad508cede6f4c6495b"
+  },
+  {
+    "url": "package-lock.json",
+    "revision": "b09fd85cf12551a5b26a652473d94592"
+  },
+  {
+    "url": "package.json",
+    "revision": "a23251b9e8028f42483f04a916023813"
+  },
+  {
+    "url": "README.md",
+    "revision": "04bd97003a8ff44701a6fb28c71c08dd"
+  },
+  {
+    "url": "site.webmanifest",
+    "revision": "4bffe56f1b35066af7af508a07c7b63e"
+  },
+  {
+    "url": "style.scss",
+    "revision": "463eca43d8754821a89288ec67efcd45"
+  },
+  {
+    "url": "webpack.config.js",
+    "revision": "3c13509e8a5049d7282b5bc5e6be5021"
+  },
+  {
+    "url": "workbox-config.js",
+    "revision": "2d0edaf786fb2f70fbd40abb95a324c1"
   }
-});
+].concat(self.__precacheManifest || []);
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.routing.registerRoute(/\.(?:png|ico|jpg|jpeg|svg)$/, new workbox.strategies.CacheFirst({ "cacheName":"images-www", plugins: [new workbox.expiration.Plugin({ maxEntries: 200, maxAgeSeconds: 864000, purgeOnQuotaError: false })] }), 'GET');

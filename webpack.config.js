@@ -1,12 +1,61 @@
 const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 module.exports = [{
-    entry: ['./style.scss', './assets/js/main.js'],
+    entry: ['./style.scss', './main.js'],
     output: {
-      // This is necessary for webpack to compile
-      // But we never use style-bundle.js
       filename: 'bundle.js',
     },
+    plugins: [
+      // new HtmlWebpackPlugin({
+      //   template: './index.html',
+      //   domain: process.env.PROJECT_DOMAIN,
+      //   inject: false
+      // }),
+      new FileManagerPlugin({ //fixing a bug : if filename is changing, it is not overriding )
+        onStart: {
+          delete: [
+            './dist/precache-manifest.*.js',
+           ]
+        }
+      }),
+      new CopyPlugin([   //some files has to be under public
+        { from: '*.html', to: '' },
+        { from: 'assets/**', to: '' },
+        { from: 'service-worker.js', to: '' },
+        { from: 'site.webmanifest', to: '' },
+        { from: 'favicon.ico', to: '' },
+        { from: 'apple-touch-icon.png', to: '' },
+      ]),
+      new WorkboxPlugin.GenerateSW({  //in prod. mode, not use workbox-config.js
+        // "globDirectory": ".",
+        // "globPatterns": [
+        //   "**/*.{html,png,jpeg,jpg,css,js,xml,ico,webmanifest,json,scss,md}"
+        // ],
+
+        "swDest": "service-worker.js",
+        cleanupOutdatedCaches: true,
+
+        // Define runtime caching rules.
+        runtimeCaching: [{
+          urlPattern: /\.(?:png|ico|jpg|jpeg|svg)$/,
+
+          handler: 'CacheFirst',
+
+          options: {
+            cacheName: 'images-www',
+
+            expiration: {
+              maxEntries: 200,
+              maxAgeSeconds: 10 * 24 * 60 * 60 //10 days
+            },
+          },
+        }],
+      }),
+    ],
     module: {
       rules: [
         {

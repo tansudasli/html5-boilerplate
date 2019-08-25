@@ -41,3 +41,29 @@ h6 {
 p {
     @include mdc-typography(body1);
 }
+
+.mdc-top-app-bar {
+    @include mdc-elevation(1);
+    position: relative;
+    z-index: 1;
+  
+    &:not(.mdc-top-app-bar--short) {
+      width: 100%;
+    }
+}
+  
+#ourCustomers .mdc-image-list {
+    // @include mdc-image-list-standard-columns(5);
+
+    max-width: fit-content;
+    // max-height: 600px;
+    margin: 0;
+}
+
+#howItWorks .mdc-image-list {
+    @include mdc-image-list-standard-columns(1);
+
+    // max-width: fit-content;
+    // max-height: 600px;
+    margin: 0;
+}
