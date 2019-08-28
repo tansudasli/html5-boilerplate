@@ -33,8 +33,9 @@ const route = {'development': 'https://core-app-3f127.firebaseapp.com',
               'release': 'https://core-app-91f9d.firebaseapp.com',
               'demo': 'define a url',
               'production': 'https://core-app-34b0f.firebaseapp.com',
+              'www': 'https://core-app.cardbase.io',
               'localhost': 'define a url',
-              'learnMore': '/learn-more-about-......html'      //define naming w/ your idea and SEO
+              'learnMore': '/learn-more-about-......html'      //define naming b/w your idea and SEO
               }
 
 
@@ -64,6 +65,11 @@ document.querySelector('.getStarted')
 
               window.open(route.production);
             }
+            else if(domainName.startsWith('www')) {
+              console.log('environment = production');
+
+              window.open(route.www);
+            }
             else if(domainName.startsWith('localhost')) {
               console.log('environment = localhost');
 
@@ -89,7 +95,7 @@ document.querySelector('.requestDemo')
         });
 
 document.querySelector('.learnMore')
-        .addEventListener('click', ()=> {
+        .addEventListener('click', () => {
             console.log('clicked to learnMore');
 
             window.open(route.learnMore);
