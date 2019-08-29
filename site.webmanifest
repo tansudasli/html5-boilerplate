@@ -2,7 +2,7 @@
   "short_name": "cardbaseio",
   "name": "cardbaseio",
   "scope": "/",
-  "start_url": "/index.html?utm_source=homescreen",
+  "start_url": "/index.html?utm_source=addToHomeScreen",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
