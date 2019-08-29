@@ -66,7 +66,7 @@ After fork,
 ## How to Run
 
 - for development only and serve from local run `npm run start`
-- for production, `npm run build` to create dist/ folder. Then deploy it to firebase or somewhere else
+- for production, `npm run build` to create dist/ folder. Then deploy it to firebase w/ `./deploy-to-` scripts or somewhere else
 
 ## How to Deploy
 
@@ -112,4 +112,4 @@ So you should consider:
 
 ## About Fork strategy
 
-Once you forked, do your customizations and manually get changes from upstream.
+Once you forked, do your customizations and manually get changes from [upstream](https://github.com/tansudasli/html5-material-pwa-boilerplate).

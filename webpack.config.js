@@ -29,6 +29,7 @@ module.exports = [{
         { from: 'site.webmanifest', to: '' },
         { from: 'favicon.ico', to: '' },
         { from: 'apple-touch-icon.png', to: '' },
+        { from: 'robots.txt', to: '' },
       ]),
       new WorkboxPlugin.GenerateSW({  //in prod. mode, not use workbox-config.js
         // "globDirectory": ".",
