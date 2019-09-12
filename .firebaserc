@@ -1,28 +1,28 @@
 {
   "projects": {
-    "development": "development-3f127",
-    "production": "production-34b0f",
-    "release": "release-91f9d"
+    "development": "development-abcde",
+    "production": "production-abcde",
+    "release": "release-abcde"
   },
   "targets": {
-    "development-3f127": {
+    "development-abcde": {
       "hosting": {
         "www": [
-          "development-3f127"
+          "development-abcde"
         ]
       }
     },
-    "release-91f9d": {
+    "release-abcde": {
       "hosting": {
         "www": [
-          "release-91f9d"
+          "release-abcde"
         ]
       }
     },
-    "production-34b0f": {
+    "production-abcde": {
       "hosting": {
         "www": [
-          "production-34b0f"
+          "production-abcde"
         ]
       }
     }
