@@ -27,7 +27,7 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "3a84637e116ac2190e0434a9f752856f"
+    "revision": "ada6afdade47b05ada07868761c2a586"
   },
   {
     "url": "apple-touch-icon-114x114.png",
@@ -147,7 +147,7 @@ self.__precacheManifest = [
   },
   {
     "url": "assets/our-references/company.png",
-    "revision": "96cd878facb3060e5501ce1c42616fab"
+    "revision": "9ab8107a470268905ede1c25a7c3d728"
   },
   {
     "url": "assets/privacy.html",
@@ -202,146 +202,6 @@ self.__precacheManifest = [
     "revision": "4daa3daae3ec249a9c26b3338844c814"
   },
   {
-    "url": "dist/404.html",
-    "revision": "f763655d508a5dfd015025d698ce67b3"
-  },
-  {
-    "url": "dist/apple-touch-icon.png",
-    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
-  },
-  {
-    "url": "dist/assets/archive/archive.html",
-    "revision": "6e8f64ba61f0b6af710a1683e4e8b2b1"
-  },
-  {
-    "url": "dist/assets/css/normalize.css",
-    "revision": "112272e51c80ffe5bd01becd2ce7d656"
-  },
-  {
-    "url": "dist/assets/icons/icon-128x128.png",
-    "revision": "c868628f85920746394b72634dfcc4f9"
-  },
-  {
-    "url": "dist/assets/icons/icon-144x144.png",
-    "revision": "cd8497548afb834dda62757379542627"
-  },
-  {
-    "url": "dist/assets/icons/icon-152x152.png",
-    "revision": "fe8578eb15d077ca8c61b136d721f816"
-  },
-  {
-    "url": "dist/assets/icons/icon-192x192.png",
-    "revision": "cba69c4d0a85d58c52948906f09cc2e5"
-  },
-  {
-    "url": "dist/assets/icons/icon-384x384.png",
-    "revision": "09e0f809670656f359124debc2f18af5"
-  },
-  {
-    "url": "dist/assets/icons/icon-512x512.png",
-    "revision": "499374c2e19adb5ef3b3dadc7cc53412"
-  },
-  {
-    "url": "dist/assets/icons/icon-72x72.png",
-    "revision": "18f662ec383f61bfe9db19a5a43fcec5"
-  },
-  {
-    "url": "dist/assets/icons/icon-96x96.png",
-    "revision": "5e7bb9c1b59630a0a57a10b506ba83b8"
-  },
-  {
-    "url": "dist/assets/icons/tile-150x150.png",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
-  },
-  {
-    "url": "dist/assets/icons/tile-310x150.png",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
-  },
-  {
-    "url": "dist/assets/icons/tile-310x310.png",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
-  },
-  {
-    "url": "dist/assets/icons/tile-70x70.png",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
-  },
-  {
-    "url": "dist/assets/js/modernizr-3.7.1.min.js",
-    "revision": "ee25e20d7e9ab3a9176a13b399811ba3"
-  },
-  {
-    "url": "dist/assets/privacy.html",
-    "revision": "674c4ed7ef8f948d8c415243d13636fa"
-  },
-  {
-    "url": "dist/assets/splash/ipad_splash.png",
-    "revision": "e62fbcc24e7f2168c0e09c6f242059a5"
-  },
-  {
-    "url": "dist/assets/splash/ipadpro1_splash.png",
-    "revision": "77f19d24000dbcabede7e90da6ce499a"
-  },
-  {
-    "url": "dist/assets/splash/ipadpro2_splash.png",
-    "revision": "8a42eed5cd0e26349689bc651124a2cf"
-  },
-  {
-    "url": "dist/assets/splash/ipadpro3_splash.png",
-    "revision": "2b0436517315231dd3bad6f5e75247ce"
-  },
-  {
-    "url": "dist/assets/splash/iphone5_splash.png",
-    "revision": "eb0470dbb42301dd3de1472f12c17688"
-  },
-  {
-    "url": "dist/assets/splash/iphone6_splash.png",
-    "revision": "e2d9de50074511a269ab6b5a4dea02a8"
-  },
-  {
-    "url": "dist/assets/splash/iphoneplus_splash.png",
-    "revision": "38292be150ad5d69d8c4240f03bf81d9"
-  },
-  {
-    "url": "dist/assets/splash/iphonex_splash.png",
-    "revision": "5b3f8a16878dac8e04cd35e7b1a35594"
-  },
-  {
-    "url": "dist/assets/splash/iphonexr_splash.png",
-    "revision": "b9d82f34950f5aa70de62d5222f4cef2"
-  },
-  {
-    "url": "dist/assets/splash/iphonexsmax_splash.png",
-    "revision": "1b3e5782ffa2bd80c4cb6b4c37f3a722"
-  },
-  {
-    "url": "dist/assets/terms.html",
-    "revision": "5d515213b173489072e0b94e65a5f6ad"
-  },
-  {
-    "url": "dist/bundle.css",
-    "revision": "895e3e735227b5370c45ce7e8cd6452d"
-  },
-  {
-    "url": "dist/bundle.js",
-    "revision": "3f22467ae4eed098da4408f874812d0a"
-  },
-  {
-    "url": "dist/favicon.ico",
-    "revision": "b9aa7c338693424aae99599bec875b5f"
-  },
-  {
-    "url": "dist/index.html",
-    "revision": "47519304b060205c89aedd4b423af454"
-  },
-  {
-    "url": "dist/precache-manifest.63cc21432a1f43ab55e29ece4f4b1828.js",
-    "revision": "63cc21432a1f43ab55e29ece4f4b1828"
-  },
-  {
-    "url": "dist/site.webmanifest",
-    "revision": "33fd3296e5a7eaf7455a144499918dda"
-  },
-  {
     "url": "favicon-16x16.png",
     "revision": "33c2bd13cfc374edecfcb8a8888f01be"
   },
@@ -366,16 +226,12 @@ self.__precacheManifest = [
     "revision": "90400c939fe2e98ea64d1906aa7ddbc8"
   },
   {
-    "url": "index-old.html",
-    "revision": "47519304b060205c89aedd4b423af454"
-  },
-  {
     "url": "index.html",
-    "revision": "9ae3c359b65c1e8a6344eac20edaaad4"
+    "revision": "45509943bef7613e917176907123a8b8"
   },
   {
     "url": "main.js",
-    "revision": "5412948acdd20d8be5991980ad8bb5df"
+    "revision": "c3fb2a1a8034e860dfd60b6c4acbfa92"
   },
   {
     "url": "material.components.scss",
@@ -399,11 +255,11 @@ self.__precacheManifest = [
   },
   {
     "url": "README.md",
-    "revision": "16d6de8c315fe556472359753c3ed8df"
+    "revision": "6e4ee8803073c2c23f19a0588aef3dcf"
   },
   {
     "url": "site.webmanifest",
-    "revision": "cbc2aaac397201576699bbc2b1e3a2bb"
+    "revision": "32e82d89ea523e5159559eb69032a01e"
   },
   {
     "url": "style.scss",
